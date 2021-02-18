@@ -101,7 +101,6 @@ class TableRef:
 	schema: 'SchemaRef'; name: str
 
 
-@dataclass
 class ColumnType(str, enum.Enum):
 	INT64 = 'Int64'; STRING = 'String'; TIMESTAMP = 'Timestamp'
 
@@ -126,12 +125,10 @@ class Schema(TxnResult):
 	tables: typing.Set[str]
 
 
-@dataclass
 class DatabasePermissions(enum.IntFlag):
 	MANAGE_ROLES = 1; MANAGE_SCHEMAS = 2
 
 
-@dataclass
 class SchemaPermissions(enum.IntFlag):
 	MANAGE_ACCESS = 1; MANAGE_TABLES = 2; WRITE_TABLE = 4; READ_TABLE = 8
 
