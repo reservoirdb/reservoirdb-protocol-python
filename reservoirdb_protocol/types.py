@@ -115,7 +115,6 @@ class Table(TxnResult):
 	columns: typing.List['Column']; sort_key: typing.Optional[str]
 
 
-@dataclass
 class SchemaRef(str):
 	pass
 
@@ -133,12 +132,10 @@ class SchemaPermissions(enum.IntFlag):
 	MANAGE_ACCESS = 1; MANAGE_TABLES = 2; WRITE_TABLE = 4; READ_TABLE = 8
 
 
-@dataclass
 class UserRef(str):
 	pass
 
 
-@dataclass
 class RoleRef(str):
 	pass
 
