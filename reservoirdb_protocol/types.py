@@ -1,5 +1,6 @@
 
 import typing
+import enum
 from dataclasses import dataclass
 
 from . import Command, TxnResult, TaggedCommand, TaggedTxnResult
@@ -101,8 +102,8 @@ class TableRef:
 
 
 @dataclass
-class ColumnType:
-	pass
+class ColumnType(enum.Enum):
+	INT64 = 'Int64'; STRING = 'String'; TIMESTAMP = 'Timestamp'
 
 
 @dataclass
@@ -116,7 +117,7 @@ class Table(TxnResult):
 
 
 @dataclass
-class SchemaRef:
+class SchemaRef(str):
 	pass
 
 
@@ -126,22 +127,22 @@ class Schema(TxnResult):
 
 
 @dataclass
-class DatabasePermissions:
+class DatabasePermissions(enum.IntFlag):
+	MANAGE_ROLES = '1'; MANAGE_SCHEMAS = '2'
+
+
+@dataclass
+class SchemaPermissions(enum.IntFlag):
+	MANAGE_ACCESS = '1'; MANAGE_TABLES = '2'; WRITE_TABLE = '4'; READ_TABLE = '8'
+
+
+@dataclass
+class UserRef(str):
 	pass
 
 
 @dataclass
-class SchemaPermissions:
-	pass
-
-
-@dataclass
-class UserRef:
-	pass
-
-
-@dataclass
-class RoleRef:
+class RoleRef(str):
 	pass
 
 
