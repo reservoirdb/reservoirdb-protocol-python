@@ -92,8 +92,28 @@ class GrantGlobalSchemaPermissions(Command):
 
 
 @dataclass
+class GrantComputeClusterPermissions(Command):
+	role: 'RoleRef'; compute_cluster: 'ComputeClusterRef'; permissions: 'ComputeClusterPermissions'
+
+
+@dataclass
+class GrantGlobalComputeClusterPermissions(Command):
+	role: 'RoleRef'; permissions: 'ComputeClusterPermissions'
+
+
+@dataclass
 class GrantDatabasePermissions(Command):
 	role: 'RoleRef'; permissions: 'DatabasePermissions'
+
+
+@dataclass
+class CreateComputeCluster(Command):
+	name: 'ComputeClusterRef'
+
+
+@dataclass
+class DeleteComputeCluster(Command):
+	name: 'ComputeClusterRef'
 
 
 @dataclass
@@ -125,11 +145,15 @@ class Schema(TxnResult):
 
 
 class DatabasePermissions(enum.IntFlag):
-	MANAGE_ROLES = 1; MANAGE_SCHEMAS = 2
+	MANAGE_ROLES = 1; MANAGE_SCHEMAS = 2; MANAGE_COMPUTE_CLUSTERS = 4
 
 
 class SchemaPermissions(enum.IntFlag):
 	MANAGE_ACCESS = 1; MANAGE_TABLES = 2; WRITE_TABLE = 4; READ_TABLE = 8
+
+
+class ComputeClusterPermissions(enum.IntFlag):
+	USE = 1
 
 
 class UserRef(str):
@@ -147,4 +171,13 @@ class User(TxnResult):
 
 @dataclass
 class Role(TxnResult):
-	database_permissions: 'DatabasePermissions'; global_schema_permissions: 'SchemaPermissions'; schema_permissions: typing.Dict['SchemaRef', 'SchemaPermissions']
+	database_permissions: 'DatabasePermissions'; global_schema_permissions: 'SchemaPermissions'; schema_permissions: typing.Dict['SchemaRef', 'SchemaPermissions']; global_compute_cluster_permissions: 'ComputeClusterPermissions'; compute_cluster_permissions: typing.Dict['ComputeClusterRef', 'ComputeClusterPermissions']
+
+
+class ComputeClusterRef(str):
+	pass
+
+
+@dataclass
+class ComputeCluster(TxnResult):
+	pass
