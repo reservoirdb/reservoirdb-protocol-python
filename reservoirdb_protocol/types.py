@@ -171,7 +171,7 @@ class User(TxnResult):
 
 @dataclass
 class Role(TxnResult):
-	database_permissions: 'DatabasePermissions'; global_schema_permissions: 'SchemaPermissions'; schema_permissions: typing.Dict['SchemaRef', 'SchemaPermissions']; global_compute_cluster_permissions: typing.Optional['ComputeClusterPermissions']; compute_cluster_permissions: typing.Optional[typing.Dict['ComputeClusterRef', 'ComputeClusterPermissions']]
+	database_permissions: 'DatabasePermissions'; global_schema_permissions: 'SchemaPermissions'; schema_permissions: typing.Dict['SchemaRef', 'SchemaPermissions']; global_compute_cluster_permissions: 'ComputeClusterPermissions'; compute_cluster_permissions: typing.Dict['ComputeClusterRef', 'ComputeClusterPermissions']
 
 
 class ComputeClusterRef(str):
