@@ -1,11 +1,12 @@
 import dataclasses
 import typing
+import typing_extensions
 import enum
 
-class TxnResult(typing.Protocol):
+class TxnResult(typing_extensions.Protocol):
 	pass
 
-class Command(typing.Protocol):
+class Command(typing_extensions.Protocol):
 	pass
 
 @dataclasses.dataclass
