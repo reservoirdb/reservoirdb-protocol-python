@@ -2,6 +2,12 @@ import dataclasses
 import typing
 import enum
 
+class TxnResult(typing.Protocol):
+	pass
+
+class Command(typing.Protocol):
+	pass
+
 @dataclasses.dataclass
 class CreateComputeCluster(Command):
 	name: 'ComputeClusterRef'
@@ -15,12 +21,6 @@ class ComputeClusterRef(str):
 
 @dataclasses.dataclass
 class ComputeCluster(TxnResult):
-	pass
-
-class TxnResult(typing.Protocol):
-	pass
-
-class Command(typing.Protocol):
 	pass
 
 @dataclasses.dataclass
