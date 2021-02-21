@@ -26,7 +26,7 @@ class ComputeCluster(TxnResult):
 
 @dataclasses.dataclass
 class UIState(TxnResult):
-	tables: typing.Dict['TableRef', 'Table']
+	tables: typing.Dict[str, 'Table']
 	schemas: typing.Dict['SchemaRef', 'Schema']
 	users: typing.Dict['UserRef', 'User']
 	roles: typing.Dict['RoleRef', 'Role']
