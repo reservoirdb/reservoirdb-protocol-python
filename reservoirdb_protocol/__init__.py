@@ -25,6 +25,17 @@ class ComputeCluster(TxnResult):
 	pass
 
 @dataclasses.dataclass
+class UIState(TxnResult):
+	tables: typing.Dict['TableRef', 'Table']
+	schemas: typing.Dict['SchemaRef', 'Schema']
+	users: typing.Dict['UserRef', 'User']
+	roles: typing.Dict['RoleRef', 'Role']
+
+@dataclasses.dataclass
+class UIGetState(Command):
+	pass
+
+@dataclasses.dataclass
 class AuthLoginRequest:
 	account: str
 	user: 'UserRef'
