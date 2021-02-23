@@ -67,12 +67,20 @@ class GetUser(Command):
 	user: 'UserRef'
 
 @dataclasses.dataclass
+class DeleteUser(Command):
+	user: 'UserRef'
+
+@dataclasses.dataclass
 class AssignUserRoles(Command):
 	user: 'UserRef'
 	roles: typing.List['RoleRef']
 
 @dataclasses.dataclass
 class CreateRole(Command):
+	role: 'RoleRef'
+
+@dataclasses.dataclass
+class DeleteRole(Command):
 	role: 'RoleRef'
 
 @dataclasses.dataclass
@@ -136,6 +144,10 @@ class Role(TxnResult):
 
 @dataclasses.dataclass
 class CreateSchema(Command):
+	name: 'SchemaRef'
+
+@dataclasses.dataclass
+class DeleteSchema(Command):
 	name: 'SchemaRef'
 
 class SchemaRef(str):
