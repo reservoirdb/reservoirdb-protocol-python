@@ -3,110 +3,131 @@ import typing
 import typing_extensions
 import enum
 
-class TxnResult(typing_extensions.Protocol):
-	pass
+TxnResult = typing.Union['ComputeCluster', 'UIState', 'User', 'Role', 'Schema', 'Table']
 
-class Command(typing_extensions.Protocol):
-	pass
+Command = typing.Union['CreateComputeCluster', 'DeleteComputeCluster', 'UIGetState', 'CreateUser', 'GetUser',
+						'DeleteUser', 'AssignUserRoles', 'CreateRole', 'DeleteRole', 'GrantSchemaPermissions',
+						'GrantGlobalSchemaPermissions', 'GrantComputeClusterPermissions',
+						'GrantGlobalComputeClusterPermissions', 'GrantDatabasePermissions', 'CreateSchema',
+						'DeleteSchema', 'CreateTable', 'GetTable', 'AlterTable', 'DeleteTable', 'InsertData']
 
 @dataclasses.dataclass
-class CreateComputeCluster(Command):
+class CreateComputeCluster:
+	type: typing.Literal['CreateComputeCluster']
 	name: 'ComputeClusterRef'
 
 @dataclasses.dataclass
-class DeleteComputeCluster(Command):
+class DeleteComputeCluster:
+	type: typing.Literal['DeleteComputeCluster']
 	name: 'ComputeClusterRef'
 
 class ComputeClusterRef(str):
 	pass
 
 @dataclasses.dataclass
-class ComputeCluster(TxnResult):
-	pass
+class ComputeCluster:
+	type: typing.Literal['ComputeCluster']
 
 @dataclasses.dataclass
-class UIState(TxnResult):
+class UIState:
+	type: typing.Literal['UIState']
 	tables: typing.Dict[str, 'Table']
 	schemas: typing.Dict['SchemaRef', 'Schema']
 	users: typing.Dict['UserRef', 'User']
 	roles: typing.Dict['RoleRef', 'Role']
 
 @dataclasses.dataclass
-class UIGetState(Command):
-	pass
+class UIGetState:
+	type: typing.Literal['UIGetState']
 
 @dataclasses.dataclass
 class AuthLoginRequest:
+	type: typing.Literal['AuthLoginRequest']
 	account: str
 	user: 'UserRef'
 	password: str
 
 @dataclasses.dataclass
 class AuthLoginResponse:
+	type: typing.Literal['AuthLoginResponse']
 	token: str
 
 @dataclasses.dataclass
 class TxnRequest:
+	type: typing.Literal['TxnRequest']
 	commands: typing.List['Command']
 
 @dataclasses.dataclass
 class TxnResponse:
+	type: typing.Literal['TxnResponse']
 	results: typing.List[typing.Optional['TxnResult']]
 
 @dataclasses.dataclass
 class QueryRequest:
+	type: typing.Literal['QueryRequest']
 	query: str
 
 @dataclasses.dataclass
-class CreateUser(Command):
+class CreateUser:
+	type: typing.Literal['CreateUser']
 	user: 'UserRef'
 	password: str
 
 @dataclasses.dataclass
-class GetUser(Command):
+class GetUser:
+	type: typing.Literal['GetUser']
 	user: 'UserRef'
 
 @dataclasses.dataclass
-class DeleteUser(Command):
+class DeleteUser:
+	type: typing.Literal['DeleteUser']
 	user: 'UserRef'
 
 @dataclasses.dataclass
-class AssignUserRoles(Command):
+class AssignUserRoles:
+	type: typing.Literal['AssignUserRoles']
 	user: 'UserRef'
 	roles: typing.List['RoleRef']
 
 @dataclasses.dataclass
-class CreateRole(Command):
+class CreateRole:
+	type: typing.Literal['CreateRole']
 	role: 'RoleRef'
 
 @dataclasses.dataclass
-class DeleteRole(Command):
+class DeleteRole:
+	type: typing.Literal['DeleteRole']
 	role: 'RoleRef'
 
 @dataclasses.dataclass
-class GrantSchemaPermissions(Command):
+class GrantSchemaPermissions:
+	type: typing.Literal['GrantSchemaPermissions']
 	role: 'RoleRef'
 	schema: 'SchemaRef'
 	permissions: 'SchemaPermissions'
 
 @dataclasses.dataclass
-class GrantGlobalSchemaPermissions(Command):
+class GrantGlobalSchemaPermissions:
+	type: typing.Literal['GrantGlobalSchemaPermissions']
 	role: 'RoleRef'
 	permissions: 'SchemaPermissions'
 
 @dataclasses.dataclass
-class GrantComputeClusterPermissions(Command):
+class GrantComputeClusterPermissions:
+	type: typing.Literal['GrantComputeClusterPermissions']
 	role: 'RoleRef'
 	compute_cluster: 'ComputeClusterRef'
 	permissions: 'ComputeClusterPermissions'
 
 @dataclasses.dataclass
-class GrantGlobalComputeClusterPermissions(Command):
+class GrantGlobalComputeClusterPermissions:
+	type: typing.Literal['GrantGlobalComputeClusterPermissions']
 	role: 'RoleRef'
 	permissions: 'ComputeClusterPermissions'
 
 @dataclasses.dataclass
-class GrantDatabasePermissions(Command):
+class GrantDatabasePermissions:
+	type: typing.Literal['GrantDatabasePermissions']
 	role: 'RoleRef'
 	permissions: 'DatabasePermissions'
 
@@ -131,11 +152,13 @@ class RoleRef(str):
 	pass
 
 @dataclasses.dataclass
-class User(TxnResult):
+class User:
+	type: typing.Literal['User']
 	roles: typing.Set['RoleRef']
 
 @dataclasses.dataclass
-class Role(TxnResult):
+class Role:
+	type: typing.Literal['Role']
 	database_permissions: 'DatabasePermissions'
 	global_schema_permissions: 'SchemaPermissions'
 	schema_permissions: typing.Dict['SchemaRef', 'SchemaPermissions']
@@ -143,45 +166,54 @@ class Role(TxnResult):
 	compute_cluster_permissions: typing.Dict['ComputeClusterRef', 'ComputeClusterPermissions']
 
 @dataclasses.dataclass
-class CreateSchema(Command):
+class CreateSchema:
+	type: typing.Literal['CreateSchema']
 	name: 'SchemaRef'
 
 @dataclasses.dataclass
-class DeleteSchema(Command):
+class DeleteSchema:
+	type: typing.Literal['DeleteSchema']
 	name: 'SchemaRef'
 
 class SchemaRef(str):
 	pass
 
 @dataclasses.dataclass
-class Schema(TxnResult):
+class Schema:
+	type: typing.Literal['Schema']
 	tables: typing.Set[str]
 
 @dataclasses.dataclass
-class CreateTable(Command):
+class CreateTable:
+	type: typing.Literal['CreateTable']
 	table: 'TableRef'
 	table_def: 'Table'
 
 @dataclasses.dataclass
-class GetTable(Command):
+class GetTable:
+	type: typing.Literal['GetTable']
 	table: 'TableRef'
 
 @dataclasses.dataclass
-class AlterTable(Command):
+class AlterTable:
+	type: typing.Literal['AlterTable']
 	table: 'TableRef'
 	new_columns: typing.List['Column']
 
 @dataclasses.dataclass
-class DeleteTable(Command):
+class DeleteTable:
+	type: typing.Literal['DeleteTable']
 	table: 'TableRef'
 
 @dataclasses.dataclass
-class InsertData(Command):
+class InsertData:
+	type: typing.Literal['InsertData']
 	table: 'TableRef'
 	data_ref: str
 
 @dataclasses.dataclass
 class TableRef:
+	type: typing.Literal['TableRef']
 	schema: 'SchemaRef'
 	name: str
 
@@ -192,11 +224,13 @@ class ColumnType(str, enum.Enum):
 
 @dataclasses.dataclass
 class Column:
+	type: typing.Literal['Column']
 	name: str
 	ty: 'ColumnType'
 	nullable: bool
 
 @dataclasses.dataclass
-class Table(TxnResult):
+class Table:
+	type: typing.Literal['Table']
 	columns: typing.List['Column']
 	sort_key: typing.Optional[str]
