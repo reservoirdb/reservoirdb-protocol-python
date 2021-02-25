@@ -1,6 +1,5 @@
 import dataclasses
 import typing
-import typing_extensions
 import enum
 
 @dataclasses.dataclass
@@ -23,10 +22,10 @@ class ComputeCluster:
 
 @dataclasses.dataclass
 class UIState:
-	tables: typing.Dict[str, 'Table']
-	schemas: typing.Dict['SchemaRef', 'Schema']
-	users: typing.Dict['UserRef', 'User']
-	roles: typing.Dict['RoleRef', 'Role']
+	tables: dict[str, 'Table']
+	schemas: dict['SchemaRef', 'Schema']
+	users: dict['UserRef', 'User']
+	roles: dict['RoleRef', 'Role']
 	type: typing.Literal['UIState'] = 'UIState'
 
 @dataclasses.dataclass
@@ -48,12 +47,12 @@ class AuthLoginResponse:
 
 @dataclasses.dataclass
 class TxnRequest:
-	commands: typing.List['Command']
+	commands: list['Command']
 	type: typing.Literal['TxnRequest'] = 'TxnRequest'
 
 @dataclasses.dataclass
 class TxnResponse:
-	results: typing.List[typing.Optional['TxnResult']]
+	results: list[typing.Optional['TxnResult']]
 	type: typing.Literal['TxnResponse'] = 'TxnResponse'
 
 @dataclasses.dataclass
@@ -80,7 +79,7 @@ class DeleteUser:
 @dataclasses.dataclass
 class AssignUserRoles:
 	user: 'UserRef'
-	roles: typing.List['RoleRef']
+	roles: list['RoleRef']
 	type: typing.Literal['AssignUserRoles'] = 'AssignUserRoles'
 
 @dataclasses.dataclass
@@ -147,16 +146,16 @@ class RoleRef(str):
 
 @dataclasses.dataclass
 class User:
-	roles: typing.Set['RoleRef']
+	roles: set['RoleRef']
 	type: typing.Literal['User'] = 'User'
 
 @dataclasses.dataclass
 class Role:
 	database_permissions: 'DatabasePermissions'
 	global_schema_permissions: 'SchemaPermissions'
-	schema_permissions: typing.Dict['SchemaRef', 'SchemaPermissions']
+	schema_permissions: dict['SchemaRef', 'SchemaPermissions']
 	global_compute_cluster_permissions: 'ComputeClusterPermissions'
-	compute_cluster_permissions: typing.Dict['ComputeClusterRef', 'ComputeClusterPermissions']
+	compute_cluster_permissions: dict['ComputeClusterRef', 'ComputeClusterPermissions']
 	type: typing.Literal['Role'] = 'Role'
 
 @dataclasses.dataclass
@@ -174,7 +173,7 @@ class SchemaRef(str):
 
 @dataclasses.dataclass
 class Schema:
-	tables: typing.Set[str]
+	tables: set[str]
 	type: typing.Literal['Schema'] = 'Schema'
 
 @dataclasses.dataclass
@@ -191,7 +190,7 @@ class GetTable:
 @dataclasses.dataclass
 class AlterTable:
 	table: 'TableRef'
-	new_columns: typing.List['Column']
+	new_columns: list['Column']
 	type: typing.Literal['AlterTable'] = 'AlterTable'
 
 @dataclasses.dataclass
@@ -225,7 +224,7 @@ class Column:
 
 @dataclasses.dataclass
 class Table:
-	columns: typing.List['Column']
+	columns: list['Column']
 	sort_key: typing.Optional[str]
 	type: typing.Literal['Table'] = 'Table'
 
