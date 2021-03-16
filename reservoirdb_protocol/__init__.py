@@ -13,12 +13,28 @@ class DeleteComputeCluster:
 	name: 'ComputeClusterRef'
 	type: typing.Literal['DeleteComputeCluster'] = 'DeleteComputeCluster'
 
+@dataclasses.dataclass
+class ActivateComputeCluster:
+	name: 'ComputeClusterRef'
+	type: typing.Literal['ActivateComputeCluster'] = 'ActivateComputeCluster'
+
+@dataclasses.dataclass
+class DeactivateComputeCluster:
+	name: 'ComputeClusterRef'
+	type: typing.Literal['DeactivateComputeCluster'] = 'DeactivateComputeCluster'
+
 class ComputeClusterRef(str):
 	pass
 
+class ComputeClusterState(str, enum.Enum):
+	ACTIVATING = 'Activating'
+	ACTIVE = 'Active'
+	DEACTIVATING = 'Deactivating'
+	INACTIVE = 'Inactive'
+
 @dataclasses.dataclass
 class ComputeCluster:
-
+	state: 'ComputeClusterState'
 	type: typing.Literal['ComputeCluster'] = 'ComputeCluster'
 
 @dataclasses.dataclass
@@ -231,7 +247,8 @@ class Table:
 
 TxnResult = typing.Union[ComputeCluster, UIState, User, Role, Schema, Table]
 
-Command = typing.Union[CreateComputeCluster, DeleteComputeCluster, UIGetState, CreateUser, GetUser, DeleteUser,
-						AssignUserRoles, CreateRole, DeleteRole, GrantSchemaPermissions, GrantGlobalSchemaPermissions,
-						GrantComputeClusterPermissions, GrantGlobalComputeClusterPermissions, GrantDatabasePermissions,
-						CreateSchema, DeleteSchema, CreateTable, GetTable, AlterTable, DeleteTable, InsertData]
+Command = typing.Union[CreateComputeCluster, DeleteComputeCluster, ActivateComputeCluster, DeactivateComputeCluster,
+						UIGetState, CreateUser, GetUser, DeleteUser, AssignUserRoles, CreateRole, DeleteRole,
+						GrantSchemaPermissions, GrantGlobalSchemaPermissions, GrantComputeClusterPermissions,
+						GrantGlobalComputeClusterPermissions, GrantDatabasePermissions, CreateSchema, DeleteSchema,
+						CreateTable, GetTable, AlterTable, DeleteTable, InsertData]
