@@ -65,6 +65,7 @@ class AuthLoginResponse:
 @dataclasses.dataclass
 class TxnRequest:
 	commands: typing.List['Command']
+	run_on: typing.Optional['ComputeClusterRef']
 	type: typing.Literal['TxnRequest'] = 'TxnRequest'
 
 @dataclasses.dataclass
@@ -75,6 +76,7 @@ class TxnResponse:
 @dataclasses.dataclass
 class QueryRequest:
 	query: str
+	run_on: typing.Optional['ComputeClusterRef']
 	type: typing.Literal['QueryRequest'] = 'QueryRequest'
 
 @dataclasses.dataclass
