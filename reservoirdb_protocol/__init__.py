@@ -74,9 +74,16 @@ class TxnResponse:
 	type: typing.Literal['TxnResponse'] = 'TxnResponse'
 
 @dataclasses.dataclass
+class CatalogContext:
+	default_catalog: typing.Optional[str]
+	default_schema: typing.Optional[str]
+	type: typing.Literal['CatalogContext'] = 'CatalogContext'
+
+@dataclasses.dataclass
 class QueryRequest:
 	query: str
 	run_on: typing.Optional['ComputeClusterRef']
+	catalog_context: typing.Optional['CatalogContext']
 	type: typing.Literal['QueryRequest'] = 'QueryRequest'
 
 @dataclasses.dataclass
